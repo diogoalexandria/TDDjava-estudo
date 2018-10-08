@@ -46,4 +46,42 @@ public class AvaliadorTest {
 		Assert.assertEquals(maiorEsperado, leiloeiro.getMaiorLance(), 0.00001);
 		Assert.assertEquals(menorEsperado, leiloeiro.getMenorLance(), 0.00001);
 	}
+	
+	@Test
+	public void deveCalcularAMedia() {
+		//Cenário
+		Usuario diogo = new Usuario("Diogo");
+		Usuario teste1 = new Usuario("Teste1");
+		Usuario teste2 = new Usuario("Teste2");
+		
+		Leilao leilao = new Leilao("Carro");
+		
+		leilao.propoe(new Lance(diogo, 250.0));
+		leilao.propoe(new Lance(teste1, 280.0));
+		leilao.propoe(new Lance(teste2, 300.0));
+		
+		//Ação
+		Avaliador leiloeiro = new Avaliador();
+		leiloeiro.media(leilao);
+		
+		//Validação
+		double mediaEsperada = 0;
+		int contador = 0;
+		double somaDeLances = 0;
+		for (Lance lance : leilao.getLances()) {
+			somaDeLances += lance.getValor();
+			System.out.println("Lance atual: "+lance.getValor());
+			System.out.println("Soma acumulada: "+somaDeLances);
+			contador++;
+			System.out.println("Contador: "+contador);
+		}
+		mediaEsperada = somaDeLances/contador;
+		
+		System.out.println("Media: " + leiloeiro.getMedia());
+		System.out.println("Media Esperada: " + mediaEsperada);
+		System.out.println(leiloeiro.getMedia() == mediaEsperada);
+		
+		Assert.assertEquals(mediaEsperada, leiloeiro.getMedia(), 0.0001);
+		
+	}
 }
